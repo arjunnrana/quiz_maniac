@@ -148,7 +148,7 @@ class _QuizScreenState extends State<QuizScreen> {
                             child: Card(
                               elevation: 1.0,
                               color: _answers[_currentIndex] == option
-                                  ? const Color.fromARGB(255, 18, 88, 146)
+                                  ? Color.fromARGB(255, 28, 130, 214)
                                   : null,
                               child: ListTile(
                                 title: Column(
