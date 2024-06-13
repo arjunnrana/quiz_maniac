@@ -139,30 +139,50 @@ class _QuizScreenState extends State<QuizScreen> {
                               .toJson()['OPTION $option (ENGLISH)'];
                           final optionHindi = _questions[_currentIndex]
                               .toJson()['OPTION $option (HINDI)'];
-                          return Card(
-                            child: ListTile(
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(optionText),
-                                  const SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Text(optionHindi),
-                                ],
-                              ),
-                              leading: Radio<String>(
-                                value: option,
-                                groupValue: _answers[_currentIndex],
-                                onChanged: (value) {
-                                  setState(() {
-                                    _answers[_currentIndex] = value!;
-                                  });
-                                },
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _answers[_currentIndex] = option;
+                              });
+                            },
+                            child: Card(
+                              elevation: 1.0,
+                              color: _answers[_currentIndex] == option
+                                  ? const Color.fromARGB(255, 18, 88, 146)
+                                  : null,
+                              child: ListTile(
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      optionText,
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5.0),
+                                    Text(
+                                      optionHindi,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                leading: Radio<String>(
+                                  value: option,
+                                  groupValue: _answers[_currentIndex],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _answers[_currentIndex] = value!;
+                                    });
+                                  },
+                                ),
                               ),
                             ),
                           );
-                        }),
+                        }).toList(),
                         const SizedBox(height: 20.0),
                       ],
                     ),
