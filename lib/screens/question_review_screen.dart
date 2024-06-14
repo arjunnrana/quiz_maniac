@@ -7,11 +7,11 @@ class QuestionReviewScreen extends StatelessWidget {
   final String correctAnswer;
 
   const QuestionReviewScreen({
-    Key? key,
+    super.key,
     required this.question,
     required this.userAnswer,
     required this.correctAnswer,
-  }) : super(key: key);
+  });
 
   String _getOptionText(String option) {
     return question.toJson()['OPTION $option (ENGLISH)'] ?? '';
@@ -25,7 +25,7 @@ class QuestionReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Review Question'),
+        title: const Text('Review Question'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -34,25 +34,26 @@ class QuestionReviewScreen extends StatelessWidget {
           children: [
             Text(
               question.questionEnglish!,
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Text(
               question.questionHindi!,
-              style: TextStyle(fontSize: 18.0),
+              style: const TextStyle(fontSize: 18.0),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Text(
               'Your Answer: $userAnswer',
-              style: TextStyle(fontSize: 16.0, color: Colors.blue),
+              style: const TextStyle(fontSize: 16.0, color: Colors.blue),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Text(
               'Correct Answer: $correctAnswer',
-              style: TextStyle(fontSize: 16.0, color: Colors.green),
+              style: const TextStyle(fontSize: 16.0, color: Colors.green),
             ),
-            SizedBox(height: 20.0),
-            Text(
+            const SizedBox(height: 20.0),
+            const Text(
               'Options:',
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
@@ -68,7 +69,7 @@ class QuestionReviewScreen extends StatelessWidget {
                     children: [
                       Text(
                         '$option: ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Expanded(
                         child: Column(

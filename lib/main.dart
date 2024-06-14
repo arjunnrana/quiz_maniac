@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Ubuntu Sans',
       ),
       themeMode: ThemeMode.system,
-      home: QuizCategory(),
+      home: const QuizCategory(),
     );
   }
 }

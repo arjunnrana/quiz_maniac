@@ -9,8 +9,11 @@ class ResultScreen extends StatelessWidget {
   final Map<int, String> answers;
   final int score;
 
-  ResultScreen(
-      {required this.questions, required this.answers, required this.score});
+  const ResultScreen(
+      {super.key,
+      required this.questions,
+      required this.answers,
+      required this.score});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class ResultScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Quiz Result'),
+          title: const Text('Quiz Result'),
           automaticallyImplyLeading: false,
         ),
         body: Padding(
@@ -35,9 +38,10 @@ class ResultScreen extends StatelessWidget {
             children: [
               Text(
                 'Your Score: $score',
-                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 22.0, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Expanded(
                 child: ListView.builder(
                   itemCount: questions.length,
@@ -70,7 +74,7 @@ class ResultScreen extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
@@ -79,7 +83,7 @@ class ResultScreen extends StatelessWidget {
                     (route) => false,
                   );
                 },
-                child: Text('Start Another Quiz'),
+                child: const Text('Start Another Quiz'),
               ),
             ],
           ),

@@ -8,10 +8,10 @@ class PreviewScreen extends StatefulWidget {
   final Map<int, String> answers;
 
   const PreviewScreen({
-    Key? key,
+    super.key,
     required this.questions,
     required this.answers,
-  }) : super(key: key);
+  });
 
   @override
   _PreviewScreenState createState() => _PreviewScreenState();
@@ -61,7 +61,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Preview Questions'),
+        title: const Text('Preview Questions'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -96,7 +96,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
             ),
             ElevatedButton(
               onPressed: _submitQuiz,
-              child: Text('Submit Quiz'),
+              child: const Text('Submit Quiz'),
             ),
           ],
         ),

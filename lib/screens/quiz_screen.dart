@@ -9,9 +9,9 @@ class QuizScreen extends StatefulWidget {
   final String categoryName;
 
   const QuizScreen({
-    Key? key,
+    super.key,
     required this.categoryName,
-  }) : super(key: key);
+  });
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -162,7 +162,7 @@ class _QuizScreenState extends State<QuizScreen> {
                             child: Card(
                               elevation: 1.0,
                               color: _answers[_currentIndex] == option
-                                  ? Color.fromARGB(255, 28, 130, 214)
+                                  ? const Color.fromARGB(255, 28, 130, 214)
                                   : null,
                               child: ListTile(
                                 title: Column(
@@ -170,7 +170,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                   children: [
                                     Text(
                                       optionText,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -178,7 +178,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                     const SizedBox(height: 5.0),
                                     Text(
                                       optionHindi,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14.0,
                                       ),
                                     ),
@@ -196,7 +196,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               ),
                             ),
                           );
-                        }).toList(),
+                        }),
                         const SizedBox(height: 20.0),
                       ],
                     ),

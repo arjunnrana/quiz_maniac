@@ -7,11 +7,11 @@ class QuestionDetailScreen extends StatefulWidget {
   final int questionIndex;
 
   const QuestionDetailScreen({
-    Key? key,
+    super.key,
     required this.question,
     required this.userAnswer,
     required this.questionIndex,
-  }) : super(key: key);
+  });
 
   @override
   _QuestionDetailScreenState createState() => _QuestionDetailScreenState();
@@ -30,7 +30,7 @@ class _QuestionDetailScreenState extends State<QuestionDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Question Details'),
+        title: const Text('Question Details'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -39,20 +39,21 @@ class _QuestionDetailScreenState extends State<QuestionDetailScreen> {
           children: [
             Text(
               widget.question.questionEnglish!,
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Text(
               widget.question.questionHindi!,
-              style: TextStyle(fontSize: 18.0),
+              style: const TextStyle(fontSize: 18.0),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Text(
               'Your Answer: $_selectedAnswer',
-              style: TextStyle(fontSize: 16.0, color: Colors.blue),
+              style: const TextStyle(fontSize: 16.0, color: Colors.blue),
             ),
-            SizedBox(height: 20.0),
-            Text(
+            const SizedBox(height: 20.0),
+            const Text(
               'Options:',
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
@@ -67,13 +68,13 @@ class _QuestionDetailScreenState extends State<QuestionDetailScreen> {
                   children: [
                     Text(
                       optionText ?? '',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5.0),
                     Text(
                       optionHindi ?? '',
-                      style: TextStyle(fontSize: 14.0),
+                      style: const TextStyle(fontSize: 14.0),
                     ),
                   ],
                 ),
@@ -85,13 +86,13 @@ class _QuestionDetailScreenState extends State<QuestionDetailScreen> {
                   });
                 },
               );
-            }).toList(),
-            SizedBox(height: 20.0),
+            }),
+            const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context, _selectedAnswer);
               },
-              child: Text('Save and Go Back'),
+              child: const Text('Save and Go Back'),
             ),
           ],
         ),
