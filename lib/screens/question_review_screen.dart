@@ -13,6 +13,14 @@ class QuestionReviewScreen extends StatelessWidget {
     required this.correctAnswer,
   }) : super(key: key);
 
+  String _getOptionText(String option) {
+    return question.toJson()['OPTION $option (ENGLISH)'] ?? '';
+  }
+
+  String _getOptionTextHindi(String option) {
+    return question.toJson()['OPTION $option (HINDI)'] ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +50,49 @@ class QuestionReviewScreen extends StatelessWidget {
             Text(
               'Correct Answer: $correctAnswer',
               style: TextStyle(fontSize: 16.0, color: Colors.green),
+            ),
+            SizedBox(height: 20.0),
+            Text(
+              'Options:',
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: ['A', 'B', 'C', 'D'].map((option) {
+                final optionText = _getOptionText(option);
+                final optionTextHindi = _getOptionTextHindi(option);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$option: ',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(optionText,
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: option == correctAnswer
+                                        ? FontWeight.bold
+                                        : FontWeight.normal)),
+                            Text(optionTextHindi,
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: option == correctAnswer
+                                        ? FontWeight.bold
+                                        : FontWeight.normal)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
             ),
           ],
         ),
