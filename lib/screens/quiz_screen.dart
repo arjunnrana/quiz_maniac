@@ -1,6 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:quiz_maniac/screens/result_screen.dart';
+import 'package:quiz_maniac/screens/preview_screen.dart';
 import 'package:quiz_maniac/services/api_service.dart';
 import 'package:quiz_maniac/models/question_model.dart';
 
@@ -8,9 +9,9 @@ class QuizScreen extends StatefulWidget {
   final String categoryName;
 
   const QuizScreen({
-    super.key,
+    Key? key,
     required this.categoryName,
-  });
+  }) : super(key: key);
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -21,7 +22,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Future<List<Datum>>? _questionsFuture;
   List<Datum> _questions = [];
   final Map<int, String> _answers = {};
-  late Timer _timer;
+  Timer? _timer;
   int _timerSeconds = 300;
   int _currentIndex = 0;
 
@@ -33,7 +34,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -47,43 +48,48 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_timerSeconds > 0) {
-          _timerSeconds--;
-        } else {
-          timer.cancel();
-          _submitQuiz();
-        }
-      });
+      if (mounted) {
+        setState(() {
+          if (_timerSeconds > 0) {
+            _timerSeconds--;
+          } else {
+            timer.cancel();
+            _submitQuiz();
+          }
+        });
+      }
     });
   }
 
   Future<List<Datum>> _fetchQuestions() async {
-    List<Datum> questions = await _apiService.fetchQuestions();
-    _startTimer();
-    setState(() {
-      _questions = questions.take(5).toList();
-      _questions.shuffle();
-    });
-    return _questions;
+    try {
+      List<Datum> questions = await _apiService.fetchQuestions();
+      if (mounted) {
+        setState(() {
+          _questions = questions.take(5).toList();
+          _questions.shuffle();
+        });
+        _startTimer();
+      }
+      return _questions;
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load questions: $e')),
+        );
+      }
+      return [];
+    }
   }
 
   void _submitQuiz() {
-    _timer.cancel();
-    int score = 0;
-    _answers.forEach((index, answer) {
-      if (_answers.containsKey(index) &&
-          answer == _questions[index].answer.toString().split('.').last) {
-        score++;
-      }
-    });
+    _timer?.cancel();
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ResultScreen(
+        builder: (context) => PreviewScreen(
           questions: _questions,
           answers: _answers,
-          score: score,
         ),
       ),
     );
@@ -101,9 +107,17 @@ class _QuizScreenState extends State<QuizScreen> {
           ],
         ),
       ),
-      body: _questions.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
+      body: FutureBuilder<List<Datum>>(
+        future: _questionsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No questions available'));
+          } else {
+            return Column(
               children: [
                 Expanded(
                   child: SingleChildScrollView(
@@ -207,13 +221,16 @@ class _QuizScreenState extends State<QuizScreen> {
                       else
                         ElevatedButton(
                           onPressed: _submitQuiz,
-                          child: const Text('Submit'),
+                          child: const Text('Preview'),
                         ),
                     ],
                   ),
                 ),
               ],
-            ),
+            );
+          }
+        },
+      ),
     );
   }
 }

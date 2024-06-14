@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz_maniac/models/question_model.dart';
 import 'package:quiz_maniac/main.dart';
 import 'package:quiz_maniac/screens/quiz_category_screen.dart'; // Import your main.dart file
+import 'question_review_screen.dart';
 
 class ResultScreen extends StatelessWidget {
   final List<Datum> questions;
@@ -45,11 +46,25 @@ class ResultScreen extends StatelessWidget {
                     final userAnswer = answers[index];
                     final correctAnswer =
                         question.answer.toString().split('.').last;
-                    return Card(
-                      child: ListTile(
-                        title: Text(question.questionEnglish!),
-                        subtitle: Text(
-                            'Your answer: $userAnswer\nCorrect answer: $correctAnswer'),
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => QuestionReviewScreen(
+                              question: question,
+                              userAnswer: userAnswer ?? 'Not Answered',
+                              correctAnswer: correctAnswer,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        child: ListTile(
+                          title: Text(question.questionEnglish!),
+                          subtitle: Text(
+                              'Your answer: $userAnswer\nCorrect answer: $correctAnswer'),
+                        ),
                       ),
                     );
                   },
